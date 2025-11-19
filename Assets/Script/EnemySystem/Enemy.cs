@@ -14,16 +14,26 @@ public class Enemy : MonoBehaviour
     private string currentState;
     public Waypoint path;
     [SerializeField] private GameObject _player;
+    public GameObject player { get => _player; }
     public float sightDistance;
     public float fielddOfView;
     public float eyeHeight;
+
+    [Header("Gun")]
+    public Weapon enemyWeapon;
+    public int maxAmmo;
+    public int currentAmmo;
+    [Range(0.1f, 10f)]
+    public float fireRate;
 
     private void Start()
     {
         _stateMachine = GetComponent<StateMachine>();
         agent = GetComponent<NavMeshAgent>();
         _stateMachine.Initialized();
-        _player = GameObject.FindWithTag("Player");
+        _player = GameObject.FindGameObjectWithTag("Player");
+
+        currentAmmo = maxAmmo = enemyWeapon.weaponData.ammoCapacity;
     }
 
     private void Update()
@@ -57,5 +67,16 @@ public class Enemy : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void ReloadWeapon()
+    {
+        StartCoroutine(ReloadingWeapon());
+    }
+
+    IEnumerator ReloadingWeapon()
+    {
+        yield return new WaitForSeconds(enemyWeapon.weaponData.reloadTime);
+        currentAmmo = maxAmmo;
     }
 }

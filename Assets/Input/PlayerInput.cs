@@ -62,7 +62,7 @@ using UnityEngine.InputSystem.Utilities;
 ///         Debug.Log($"OnMove: {context.ReadValue&lt;Vector2&gt;()}");
 ///     }
 ///
-///     // Invoked when "Attack" action is either started, performed or canceled.
+///     // Invoked when "PlayerAttack" action is either started, performed or canceled.
 ///     public void OnAttack(InputAction.CallbackContext context)
 ///     {
 ///         Debug.Log($"OnAttack: {context.ReadValue&lt;float&gt;()}");
@@ -138,7 +138,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""PlayerAttack"",
                     ""type"": ""Button"",
                     ""id"": ""8709385d-f81f-4517-8d23-98714c2ac02c"",
                     ""expectedControlType"": """",
@@ -281,7 +281,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack"",
+                    ""action"": ""PlayerAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -846,7 +846,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_OnFoot_Look = m_OnFoot.FindAction("Look", throwIfNotFound: true);
         m_OnFoot_Sprint = m_OnFoot.FindAction("Sprint", throwIfNotFound: true);
         m_OnFoot_Interact = m_OnFoot.FindAction("Interact", throwIfNotFound: true);
-        m_OnFoot_Attack = m_OnFoot.FindAction("Attack", throwIfNotFound: true);
+        m_OnFoot_Attack = m_OnFoot.FindAction("PlayerAttack", throwIfNotFound: true);
         m_OnFoot_Skill1 = m_OnFoot.FindAction("Skill1", throwIfNotFound: true);
         m_OnFoot_Ultimate = m_OnFoot.FindAction("Ultimate", throwIfNotFound: true);
         m_OnFoot_Reload = m_OnFoot.FindAction("Reload", throwIfNotFound: true);
@@ -984,7 +984,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_OnFoot_Interact;
         /// <summary>
-        /// Provides access to the underlying input action "OnFoot/Attack".
+        /// Provides access to the underlying input action "OnFoot/PlayerAttack".
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_OnFoot_Attack;
         /// <summary>
@@ -1361,7 +1361,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "PlayerAttack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />

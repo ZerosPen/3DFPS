@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: 
   weaponType: 0
-  ammoCapacity: 30
-  reloadTime: 1.5
+  ammoCapacity: 5
+  reloadTime: 1
   fireRate: 20
   meleeDamage: 0
   swingTime: 0

@@ -42,7 +42,7 @@ public class PlayerCombat : MonoBehaviour
 
         if (_inputManager.onFoot.Attack.triggered && _currentWeapon != null && _currAmmo > 0)
         {
-            _currentWeapon.Attack();
+            _currentWeapon.PlayerAttack();
             _currAmmo -= 1;
         }
 

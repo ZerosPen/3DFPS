@@ -6,6 +6,7 @@ public class AttackState : State
 {
     private float _moveTimer;
     private float _losePlayerTimer;
+    private float _shotTimer;
 
     public override void Enter()
     {
@@ -22,11 +23,20 @@ public class AttackState : State
         if (enemy.CanSeePlayer())
         {
             _losePlayerTimer = 0; 
-            _moveTimer = Time.deltaTime;
+            _moveTimer += Time.deltaTime;
+            _shotTimer += Time.deltaTime;
+            enemy.transform.LookAt(enemy.player.transform);
+
+            if (_shotTimer > enemy.fireRate)
+            {
+                Shoot();
+            }
+
             if (_moveTimer > Random.Range(3, 7))
             {
                 enemy.Agent.SetDestination(enemy.transform.position + (Random.insideUnitSphere * 5));
                 _moveTimer = 0;
+    
             }
         }
         else
@@ -39,15 +49,18 @@ public class AttackState : State
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void Shoot()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (enemy.currentAmmo > 0)
+        {
+            enemy.enemyWeapon.EnemyAttack();
+            enemy.currentAmmo--;
+            _shotTimer = 0;
+            Debug.Log("FIRE!");
+        }
+        else
+        {
+            enemy.ReloadWeapon();
+        }
     }
 }
