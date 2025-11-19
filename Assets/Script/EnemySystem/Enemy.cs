@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private string currentState;
+    public Transform pathsParent;
     public Waypoint path;
     [SerializeField] private GameObject _player;
     public GameObject player { get => _player; }
@@ -27,6 +28,7 @@ public class Enemy : MonoBehaviour
     private Vector3 _lastKnowPos;
     private StateMachine _stateMachine;
     private NavMeshAgent agent;
+    private EnemyHealth _enemyHealth;
     public NavMeshAgent Agent { get => agent; }
 
     private void Start()
@@ -35,15 +37,20 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         _stateMachine.Initialized();
         _player = GameObject.FindGameObjectWithTag("Player");
-
+        _enemyHealth = GetComponent<EnemyHealth>();
         currentAmmo = maxAmmo = enemyWeapon.weaponData.ammoCapacity;
+
+        pathsParent = GameObject.FindGameObjectWithTag("Path").GetComponent<Transform>();
+        PickRandomPath();
     }
 
     private void Update()
     {
-        CanSeePlayer();
-        currentState = _stateMachine.activeState.ToString();
-        DebugObject.transform.position = lastKnowPos;
+       if (_enemyHealth != null && !_enemyHealth.GetisEnemyDeath())
+        {
+            CanSeePlayer();
+            currentState = _stateMachine.activeState.ToString();
+        }
     }
 
     public bool CanSeePlayer()
@@ -71,6 +78,25 @@ public class Enemy : MonoBehaviour
             }
         }
         return false;
+    }
+
+    void PickRandomPath()
+    {
+        if (pathsParent == null || pathsParent.childCount == 0)
+        {
+            Debug.LogWarning("No paths assigned!");
+            return;
+        }
+
+        int randomIndex = Random.Range(0, pathsParent.childCount);
+        Transform selectedPath = pathsParent.GetChild(randomIndex);
+
+        path = selectedPath.GetComponent<Waypoint>();
+
+        if (path == null)
+            Debug.LogWarning("Selected path has no Waypoint script!");
+
+        Debug.Log("Enemy picked path: " + selectedPath.name);
     }
 
     public void ReloadWeapon()

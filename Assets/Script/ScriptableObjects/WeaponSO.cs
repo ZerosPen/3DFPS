@@ -22,4 +22,5 @@ public class WeaponSO : ScriptableObject
     // Melee fields
     public float meleeDamage;
     public float swingTime;
+    public float rangeMelee;
 }

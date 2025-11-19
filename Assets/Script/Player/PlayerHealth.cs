@@ -64,12 +64,15 @@ public class PlayerHealth : Character
 
     void UpgradeHealth()
     {
-        Debug.Log("We upgrade health to 200HP!");
+        _healthPoint = _maxHealthPoint = 200;
     }
 
     void ResetHealth()
     {
-        Debug.Log("We reset health to 100HP!");
+        _maxHealthPoint = 100;
+
+        // Clamp current health so it doesn't exceed new max
+        _healthPoint = Mathf.Min(_healthPoint, _maxHealthPoint);
     }
 
     private void OnEnable()

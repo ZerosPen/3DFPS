@@ -27,14 +27,12 @@ public class CoolDownManager : MonoBehaviour
         if (_coolDownSkill > 0)
         {
             _coolDownSkill -= Time.deltaTime;
-            Debug.Log("Skill current coolDown " + _coolDownSkill);
         }
             
 
         if (_coolDownUltimate > 0)
         {
             _coolDownUltimate -= Time.deltaTime;
-            Debug.Log("Skill current coolDown " + _coolDownUltimate);
         }
     }
 
@@ -46,7 +44,7 @@ public class CoolDownManager : MonoBehaviour
     public void StarCooldownUltimate(float durationCoolDown)
     {
         _coolDownUltimate = durationCoolDown;
-
+        Debug.Log("Using Ulti");
     }
 
     public float GetCoolDownSkill()

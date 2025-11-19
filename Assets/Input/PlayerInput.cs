@@ -62,7 +62,7 @@ using UnityEngine.InputSystem.Utilities;
 ///         Debug.Log($"OnMove: {context.ReadValue&lt;Vector2&gt;()}");
 ///     }
 ///
-///     // Invoked when "PlayerAttack" action is either started, performed or canceled.
+///     // Invoked when "Attack" action is either started, performed or canceled.
 ///     public void OnAttack(InputAction.CallbackContext context)
 ///     {
 ///         Debug.Log($"OnAttack: {context.ReadValue&lt;float&gt;()}");
@@ -138,7 +138,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""PlayerAttack"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""8709385d-f81f-4517-8d23-98714c2ac02c"",
                     ""expectedControlType"": """",
@@ -168,6 +168,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""name"": ""Reload"",
                     ""type"": ""Button"",
                     ""id"": ""022471f3-5df6-4ba5-8ffc-7123f6db9d9f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenPause"",
+                    ""type"": ""Button"",
+                    ""id"": ""797215a9-78a4-46f6-b7c1-debb2b56de6d"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -281,7 +290,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""PlayerAttack"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -315,6 +324,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d4828b0-3e28-4203-b880-7c1c42dd0d32"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenPause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -410,6 +430,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""92c83e56-6679-4129-9866-e7bff45bd7c5"",
                     ""expectedControlType"": ""Quaternion"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ClosePause"",
+                    ""type"": ""Button"",
+                    ""id"": ""b4db01ee-9ab9-4186-b875-7198798c6037"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -833,6 +862,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c2954805-3fe6-4d07-b5a2-51e9d79c2197"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ClosePause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -846,10 +886,11 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_OnFoot_Look = m_OnFoot.FindAction("Look", throwIfNotFound: true);
         m_OnFoot_Sprint = m_OnFoot.FindAction("Sprint", throwIfNotFound: true);
         m_OnFoot_Interact = m_OnFoot.FindAction("Interact", throwIfNotFound: true);
-        m_OnFoot_Attack = m_OnFoot.FindAction("PlayerAttack", throwIfNotFound: true);
+        m_OnFoot_Attack = m_OnFoot.FindAction("Attack", throwIfNotFound: true);
         m_OnFoot_Skill1 = m_OnFoot.FindAction("Skill1", throwIfNotFound: true);
         m_OnFoot_Ultimate = m_OnFoot.FindAction("Ultimate", throwIfNotFound: true);
         m_OnFoot_Reload = m_OnFoot.FindAction("Reload", throwIfNotFound: true);
+        m_OnFoot_OpenPause = m_OnFoot.FindAction("OpenPause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -862,6 +903,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        m_UI_ClosePause = m_UI.FindAction("ClosePause", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -952,6 +994,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_OnFoot_Skill1;
     private readonly InputAction m_OnFoot_Ultimate;
     private readonly InputAction m_OnFoot_Reload;
+    private readonly InputAction m_OnFoot_OpenPause;
     /// <summary>
     /// Provides access to input actions defined in input action map "OnFoot".
     /// </summary>
@@ -984,7 +1027,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_OnFoot_Interact;
         /// <summary>
-        /// Provides access to the underlying input action "OnFoot/PlayerAttack".
+        /// Provides access to the underlying input action "OnFoot/Attack".
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_OnFoot_Attack;
         /// <summary>
@@ -999,6 +1042,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "OnFoot/Reload".
         /// </summary>
         public InputAction @Reload => m_Wrapper.m_OnFoot_Reload;
+        /// <summary>
+        /// Provides access to the underlying input action "OnFoot/OpenPause".
+        /// </summary>
+        public InputAction @OpenPause => m_Wrapper.m_OnFoot_OpenPause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1052,6 +1099,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @OpenPause.started += instance.OnOpenPause;
+            @OpenPause.performed += instance.OnOpenPause;
+            @OpenPause.canceled += instance.OnOpenPause;
         }
 
         /// <summary>
@@ -1090,6 +1140,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @OpenPause.started -= instance.OnOpenPause;
+            @OpenPause.performed -= instance.OnOpenPause;
+            @OpenPause.canceled -= instance.OnOpenPause;
         }
 
         /// <summary>
@@ -1137,6 +1190,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_RightClick;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
+    private readonly InputAction m_UI_ClosePause;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -1188,6 +1242,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UI/TrackedDeviceOrientation".
         /// </summary>
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+        /// <summary>
+        /// Provides access to the underlying input action "UI/ClosePause".
+        /// </summary>
+        public InputAction @ClosePause => m_Wrapper.m_UI_ClosePause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1244,6 +1302,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+            @ClosePause.started += instance.OnClosePause;
+            @ClosePause.performed += instance.OnClosePause;
+            @ClosePause.canceled += instance.OnClosePause;
         }
 
         /// <summary>
@@ -1285,6 +1346,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
+            @ClosePause.started -= instance.OnClosePause;
+            @ClosePause.performed -= instance.OnClosePause;
+            @ClosePause.canceled -= instance.OnClosePause;
         }
 
         /// <summary>
@@ -1361,7 +1425,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "PlayerAttack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
@@ -1388,6 +1452,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnReload(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "OpenPause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnOpenPause(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
@@ -1466,5 +1537,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ClosePause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClosePause(InputAction.CallbackContext context);
     }
 }

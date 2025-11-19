@@ -6,6 +6,7 @@ public class PlayerCombat : MonoBehaviour
 {
     private InputManager _inputManager;
     private PlayerUI _playerUI;
+    private PlayerWeapon _playerWeapon;
 
     [Header("Equipped Weapon")]
     [SerializeField] private Weapon _currentWeapon;
@@ -24,6 +25,7 @@ public class PlayerCombat : MonoBehaviour
     {
         _inputManager = GetComponent<InputManager>();
         _playerUI = GetComponent<PlayerUI>();
+        _playerWeapon = GetComponent<PlayerWeapon>();
 
         if (_currentWeapon != null)
         {
@@ -39,14 +41,25 @@ public class PlayerCombat : MonoBehaviour
         {
             _playerUI.UpdateAmmoUI(_currAmmo, _currentWeapon.weaponData.ammoCapacity);
         }
-
-        if (_inputManager.onFoot.Attack.triggered && _currentWeapon != null && _currAmmo > 0)
+        else
         {
-            _currentWeapon.PlayerAttack();
-            _currAmmo -= 1;
+            _playerUI.UpdateAmmoUI(0, 0);
         }
 
-        if (_currAmmo <= 0)
+        if (_inputManager.onFoot.Attack.triggered && _currentWeapon != null)
+        {
+            if (_currAmmo > 0 && _currentWeapon.weaponData.weaponType.ToString() == "Range")
+            {
+                _currentWeapon.PlayerAttack();
+                _currAmmo -= 1;
+            }
+            else if (_currentWeapon.weaponData.weaponType.ToString() == "Melee")
+            {
+                _currentWeapon.PlayerAttack();
+            }
+        }
+
+        if (_currAmmo <= 0 && _currentWeapon.weaponData.weaponType.ToString() != "Melee")
             _playerUI.UpdateText("Press R to Reload");
 
         if (_inputManager.onFoot.Reload.triggered && _currentWeapon != null && _currAmmo <= _maxAmmo)
@@ -56,6 +69,7 @@ public class PlayerCombat : MonoBehaviour
     void ChangeWeapon()
     {
         Debug.Log("Change weapon!");
+        _playerWeapon.SwapWeapon();
     }
 
     IEnumerator ReloadWeapon()
@@ -78,6 +92,11 @@ public class PlayerCombat : MonoBehaviour
         {
             _currAmmo = _maxAmmo = 0;
         }
+    }
+
+    public Weapon GetCurrentWeapon()
+    {
+        return _currentWeapon;
     }
 
     private void OnEnable()

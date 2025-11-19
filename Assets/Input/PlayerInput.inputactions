@@ -86,6 +86,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OpenPause",
+                    "type": "Button",
+                    "id": "797215a9-78a4-46f6-b7c1-debb2b56de6d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -231,6 +240,17 @@
                     "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d4828b0-3e28-4203-b880-7c1c42dd0d32",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenPause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -324,6 +344,15 @@
                     "type": "PassThrough",
                     "id": "92c83e56-6679-4129-9866-e7bff45bd7c5",
                     "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ClosePause",
+                    "type": "Button",
+                    "id": "b4db01ee-9ab9-4186-b875-7198798c6037",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -745,6 +774,17 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c2954805-3fe6-4d07-b5a2-51e9d79c2197",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ClosePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -27,6 +27,8 @@ public class WeaponSOEditor : Editor
             EditorGUILayout.LabelField("Melee Weapon Settings", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("meleeDamage"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("swingTime"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("rangeMelee"));
+
         }
 
         serializedObject.ApplyModifiedProperties();

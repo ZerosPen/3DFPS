@@ -22,15 +22,21 @@ public class PlayerSkill : MonoBehaviour
     {
         if (_inputManager.onFoot.Skill1.triggered)
         {
-            if (currentSkill == null || CoolDownManager.instance.GetCoolDownSkill() > 0) 
+            if (currentSkill == null || CoolDownManager.instance.GetCoolDownSkill() > 0)
+            {
+                Debug.Log("Using Skill");
                 return;
+            }
 
             UseSkill();
         }
         if (_inputManager.onFoot.Ultimate.triggered)
         {
-            if (currentUltimate == null || CoolDownManager.instance.GetCoolDownUltimate() > 0)
+            if (currentUltimate == null || CoolDownManager.instance.GetCoolDownUltimate() > 0 || UltimateManager.instance.GetIsUltimateActive())
+            {
+                Debug.Log("Using Ulti");
                 return;
+            }
 
             UltimateManager.instance.ActivateUltimate(currentUltimate.ultimateCooldown, currentUltimate.ultimateDuration);
         }

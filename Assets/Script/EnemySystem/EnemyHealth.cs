@@ -6,6 +6,7 @@ public class EnemyHealth : Character
 {
     private CharacterDataSO _characterData;
     private EnemyUI _enemyUI;
+    [SerializeField] private bool isEnemyDeath;
 
     [Header("Events")]
     public OnEnemyDeathEventSO OnEnemyDeath;
@@ -26,6 +27,17 @@ public class EnemyHealth : Character
     public override void TakeDamage(float damage)
     {
         _healthPoint -= damage;
+        if (_healthPoint <= 0)
+        {
+            ScoreManager.instance.AddScore(100);
+            OnEnemyDeath.EnemyDeath();
+            Destroy(gameObject);
+        }
+    }
+
+    public bool GetisEnemyDeath()
+    {
+        return isEnemyDeath;
     }
 
     public override void RestoreHealth(float healAmount)

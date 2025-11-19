@@ -6,7 +6,7 @@ using UnityEngine.Events;
 [CreateAssetMenu(menuName = ("Events/On Enemy Death Event"))]
 public class OnEnemyDeathEventSO : ScriptableObject
 {
-    public UnityAction OnEnemyDeath;
+    public UnityAction OnEnemyDeathEvent;
 
-    public void EnemyDeath() => OnEnemyDeath?.Invoke();
+    public void EnemyDeath() => OnEnemyDeathEvent?.Invoke();
 }

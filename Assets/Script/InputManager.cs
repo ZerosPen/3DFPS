@@ -4,16 +4,17 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     private static InputManager _instance;
+    private PlayerMotor _playerMotor;
+    private PlayerLook _playerLook;
+    private PlayerInput playerInput;
+    private InputAction _menuOpenAction;
 
     public static InputManager Instance
     {
         get { return _instance; }
     }
-    private PlayerInput playerInput;
+    public bool MenuOpenInput { get; private set; }
     public PlayerInput.OnFootActions onFoot;
-
-    private PlayerMotor _playerMotor;
-    private PlayerLook _playerLook;
 
     private void Awake()
     {

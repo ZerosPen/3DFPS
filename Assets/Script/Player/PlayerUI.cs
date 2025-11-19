@@ -12,19 +12,60 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private float lerpTimer;
     [SerializeField] private float chipSpeed;
 
-    [Header("Refence")]
+    [Header("Health UI")]
     public Image frontHealthBar;
     public Image backHealthBar;
     public TextMeshProUGUI valueHealthBar;
+
+    [Header("Ammo UI")]
     public TextMeshProUGUI ammo;
+
+    [Header("Score UI")]
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI bestScoreText;
+
+    [Header("Abillity UI")]
+    public TextMeshProUGUI skillText;
+    public TextMeshProUGUI ultimateText;
 
     [Header("Events")]
     public OnUltimateActivedEventSO onUltimateActivedEvent;
     public OnUltimateDeactiveEventSO onUltimateDeactiveEvent;
+    public OnUpdateScoreEventSO onUpdateScoreEvent;
+    public OnStartUIPlayerEventSO onStartUIPlayerEvent;
+
+    private void Update()
+    {
+        if (CoolDownManager.instance.GetCoolDownSkill() > 0)
+        {
+            skillText.text = $"Skill : {CoolDownManager.instance.GetCoolDownSkill().ToString("F2")}";
+        }
+        else
+            skillText.text = $"Skill : READY!";
+
+
+        if (CoolDownManager.instance.GetCoolDownUltimate() > 0)
+        {
+            ultimateText.text = $"Skill : {CoolDownManager.instance.GetCoolDownUltimate().ToString("F2")}";
+        }
+        else
+            ultimateText.text = $"Ultimate : READY!";
+    }
 
     public void UpdateText(string promptMessage)
     {
         promptText.text = promptMessage;
+    }
+
+    public void IntiliazeScoreUI(int bestScore)
+    {
+        scoreText.text = $"score : {0}";
+        bestScoreText.text = $"bestScore : {bestScore.ToString()}";
+    }
+
+    private void UpdateScoreUI(int scoreValue)
+    {
+        scoreText.text = $"score : {scoreValue.ToString()}";
     }
 
     public void UpdateAmmoUI(int currentAmmo, int maxAmmo)
@@ -89,11 +130,15 @@ public class PlayerUI : MonoBehaviour
     {
         onUltimateActivedEvent.OnUltimateActivedEvent   += UpgradeHealthUI;
         onUltimateDeactiveEvent.OnUltimateDeactiveEvent += ResetHealthUI;
+        onUpdateScoreEvent.OnUpdateScoreEvent += UpdateScoreUI;
+        onStartUIPlayerEvent.OnStartUIPlayerEvent += IntiliazeScoreUI;
     }
 
     private void OnDisable()
     {
         onUltimateActivedEvent.OnUltimateActivedEvent   -= UpgradeHealthUI;
         onUltimateDeactiveEvent.OnUltimateDeactiveEvent -= ResetHealthUI;
+        onUpdateScoreEvent.OnUpdateScoreEvent -= UpdateScoreUI;
+        onStartUIPlayerEvent.OnStartUIPlayerEvent -= IntiliazeScoreUI;
     }
 }
