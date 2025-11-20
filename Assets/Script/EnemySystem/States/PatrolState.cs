@@ -6,10 +6,12 @@ public class PatrolState : State
 {
     public int WaypointIndex;
     public float stopTimer;
+    public float shotTimer;
 
     public override void Enter()
     {
-
+        stopTimer = 0;
+        shotTimer = 0;
     }
 
     public override void Perform()
@@ -31,6 +33,7 @@ public class PatrolState : State
         if (enemy.Agent.remainingDistance < 0.2f)
         {
             stopTimer += Time.deltaTime;
+            shotTimer += Time.deltaTime;
 
             if (stopTimer > 3f)
             {
@@ -45,6 +48,27 @@ public class PatrolState : State
                 enemy.Agent.SetDestination(enemy.path.waypoints[WaypointIndex].position);
                 stopTimer = 0;
             }
+
+            if (shotTimer > 5f && enemy.hasLastKnowPos)
+            {
+                ShootLastKnownPosition();
+            }
+        }
+    }
+
+    public void ShootLastKnownPosition()
+    {
+        enemy.transform.LookAt(enemy.lastKnowPos);
+        Debug.Log("Shoot to lastKnowPos coordinate :" + enemy.lastKnowPos);
+        if (enemy.currentAmmo > 0)
+        {
+            enemy.enemyWeapon.EnemyAttack();
+            enemy.currentAmmo--;
+            shotTimer = 0;
+        }
+        else
+        {
+            enemy.ReloadWeapon();
         }
     }
 }

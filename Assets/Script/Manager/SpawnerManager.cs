@@ -6,8 +6,7 @@ public class SpawnerManager : MonoBehaviour
 {
     public static SpawnerManager instance;
 
-    private List<Transform> spawnPoints = new List<Transform>();
-    public Transform spawPointParent;
+    [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
     public GameObject enemyPrefab;
     public Transform enemyContainer;
 
@@ -22,12 +21,6 @@ public class SpawnerManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-    }
-
-    private void Start()
-    {
-        for (int i = 0; i < spawPointParent.childCount; i++)
-            spawnPoints.Add(spawPointParent.GetChild(i));
     }
 
     public void BeginSpawnLoop()

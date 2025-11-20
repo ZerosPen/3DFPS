@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
+[System.Serializable]
+public struct BestScoreSaveData
+{
+    public int bestScore;
+}
+
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
@@ -25,5 +31,6 @@ public class ScoreManager : MonoBehaviour
     {
         _score += amountScore;
         OnUpdateScoreEvent.OnUpdateScore(_score);
+        StatusManager.instance.UpdateScoreStatus(_score);
     }
 }

@@ -21,12 +21,17 @@ public class PauseManager : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0f;
 
-
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void UnpauseGame()
     {
         isPaused = false;
         Time.timeScale = 1f;
+
+        // Lock cursor back
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

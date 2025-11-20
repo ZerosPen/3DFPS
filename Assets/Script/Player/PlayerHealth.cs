@@ -15,6 +15,7 @@ public class PlayerHealth : Character
     [Header("Events")]
     public OnUltimateActivedEventSO onUltimateActivedEvent;
     public OnUltimateDeactiveEventSO onUltimateDeactiveEvent;
+    public OnPlayerDeathEventSO onPlayerDeathEvent;
 
     private float _durationTimer;
 
@@ -54,6 +55,12 @@ public class PlayerHealth : Character
         _durationTimer = 0;
         damageOverLay.color = new Color(damageOverLay.color.r, damageOverLay.color.g, damageOverLay.color.b, 1);
         _playerUI.ResetLerptime();
+
+        if (_healthPoint <= 0)
+        {
+            onPlayerDeathEvent.OnPlayerDeath();
+        }
+
     }
 
     public override void RestoreHealth(float healAmount)

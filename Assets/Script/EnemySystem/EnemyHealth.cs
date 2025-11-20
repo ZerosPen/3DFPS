@@ -30,6 +30,7 @@ public class EnemyHealth : Character
         if (_healthPoint <= 0)
         {
             ScoreManager.instance.AddScore(100);
+            StatusManager.instance.UpdatekilledEnemyStatus();
             OnEnemyDeath.EnemyDeath();
             Destroy(gameObject);
         }

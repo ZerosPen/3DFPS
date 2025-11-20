@@ -13,7 +13,8 @@ public class Enemy : MonoBehaviour
     public Waypoint path;
     [SerializeField] private GameObject _player;
     public GameObject player { get => _player; }
-    public Vector3 lastKnowPos {  get => _lastKnowPos;  set => _lastKnowPos = value; }
+    public Vector3 lastKnowPos { get => _lastKnowPos; set => _lastKnowPos = value; }
+    public bool hasLastKnowPos;
     public float sightDistance;
     public float fielddOfView;
     public float eyeHeight;
@@ -46,7 +47,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-       if (_enemyHealth != null && !_enemyHealth.GetisEnemyDeath())
+        if (_enemyHealth != null && !_enemyHealth.GetisEnemyDeath())
         {
             CanSeePlayer();
             currentState = _stateMachine.activeState.ToString();

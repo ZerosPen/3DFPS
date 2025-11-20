@@ -38,6 +38,7 @@ public class AttackState : State
                 _moveTimer = 0;
             }
             enemy.lastKnowPos = enemy.player.transform.position;
+            enemy.hasLastKnowPos = true;
         }
         else // lost sight of player
         {
@@ -56,7 +57,6 @@ public class AttackState : State
             enemy.enemyWeapon.EnemyAttack();
             enemy.currentAmmo--;
             _shotTimer = 0;
-            Debug.Log("FIRE!");
         }
         else
         {
