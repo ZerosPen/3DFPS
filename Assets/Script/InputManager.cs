@@ -83,6 +83,7 @@ public class InputManager : MonoBehaviour
         PanelManager.instance.ClosePausePanel();
 
         bool isPanelOpen = PanelManager.instance.GetIsPanelOpen();
+        SaveSystem.Save();
 
         if (isPanelOpen)
             EnableUIInputs();

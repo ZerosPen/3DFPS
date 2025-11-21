@@ -6,7 +6,8 @@ public class EnemyHealth : Character
 {
     private CharacterDataSO _characterData;
     private EnemyUI _enemyUI;
-    [SerializeField] private bool isEnemyDeath;
+    private EnemyAnimator _enemyAnimator;
+   [SerializeField] private bool isEnemyDeath;
 
     [Header("Events")]
     public OnEnemyDeathEventSO OnEnemyDeath;
@@ -16,6 +17,7 @@ public class EnemyHealth : Character
         _characterData = GetComponent<EnemyData>().CharacterData;
         _healthPoint = _maxHealthPoint = _characterData.healthCharacter;
         _enemyUI = GetComponent<EnemyUI>();
+        _enemyAnimator = GetComponent<EnemyAnimator>();
     }
 
     private void Update()
@@ -27,13 +29,15 @@ public class EnemyHealth : Character
     public override void TakeDamage(float damage)
     {
         _healthPoint -= damage;
-        if (_healthPoint <= 0)
+        if (_healthPoint <= 0 && !isEnemyDeath)
         {
+            isEnemyDeath = true;
             ScoreManager.instance.AddScore(100);
             StatusManager.instance.UpdatekilledEnemyStatus();
             SoundManager.instance.Play2DSound("Death");
+            _enemyAnimator.PlayDeathAnimation();
             OnEnemyDeath.EnemyDeath();
-            Destroy(gameObject);
+            StartCoroutine(DelayDestroyEnemy());
         }
     }
 
@@ -46,14 +50,10 @@ public class EnemyHealth : Character
     {
         _healthPoint += healAmount;
     }
-
-    private void OnEnable()
+    
+    IEnumerator DelayDestroyEnemy()
     {
-
-    }
-
-    private void OnDisable()
-    {
-
+        yield return new WaitForSeconds(4f);
+        Destroy(gameObject);
     }
 }

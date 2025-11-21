@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject _player;
     public GameObject player { get => _player; }
     public Vector3 lastKnowPos { get => _lastKnowPos; set => _lastKnowPos = value; }
+    public EnemyAnimator enemyAnimator { get => _enemyAnimator; set => _enemyAnimator = value; }
     public bool hasLastKnowPos;
     public float sightDistance;
     public float fielddOfView;
@@ -30,7 +31,12 @@ public class Enemy : MonoBehaviour
     private StateMachine _stateMachine;
     private NavMeshAgent agent;
     private EnemyHealth _enemyHealth;
+    public EnemyAnimator _enemyAnimator;
+
     public NavMeshAgent Agent { get => agent; }
+
+    [Header("Events")]
+    public OnEnemyDeathEventSO OnEnemyDeathEvent;
 
     private void Start()
     {
@@ -38,7 +44,8 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         _stateMachine.Initialized();
         _player = GameObject.FindGameObjectWithTag("Player");
-        _enemyHealth = GetComponent<EnemyHealth>();
+        _enemyAnimator = GetComponent<EnemyAnimator>();
+
         currentAmmo = maxAmmo = enemyWeapon.weaponData.ammoCapacity;
 
         pathsParent = GameObject.FindGameObjectWithTag("Path").GetComponent<Transform>();
@@ -52,6 +59,11 @@ public class Enemy : MonoBehaviour
             CanSeePlayer();
             currentState = _stateMachine.activeState.ToString();
         }
+    }
+
+    public void EnemyDeath()
+    {
+        agent.SetDestination(transform.position);
     }
 
     public bool CanSeePlayer()
@@ -109,5 +121,15 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(enemyWeapon.weaponData.reloadTime);
         currentAmmo = maxAmmo;
+    }
+
+    private void OnEnable()
+    {
+        OnEnemyDeathEvent.OnEnemyDeathEvent += EnemyDeath;
+    }
+
+    private void OnDestroy()
+    {
+        OnEnemyDeathEvent.OnEnemyDeathEvent -= EnemyDeath;
     }
 }

@@ -29,11 +29,13 @@ public class AttackState : State
 
             if (_shotTimer > enemy.fireRate)
             {
+                enemy.enemyAnimator.CancelIdleAnimation();
                 Shoot();
             }
 
             if (_moveTimer > Random.Range(3, 7))
             {
+                enemy.enemyAnimator.PlayAttackAnimation();
                 enemy.Agent.SetDestination(enemy.transform.position + (Random.insideUnitSphere * 5));
                 _moveTimer = 0;
             }
@@ -42,6 +44,7 @@ public class AttackState : State
         }
         else // lost sight of player
         {
+            enemy.enemyAnimator.PlayIdleAnimation();
             _losePlayerTimer += Time.deltaTime;
             if (_losePlayerTimer > 0)
             {
@@ -54,6 +57,7 @@ public class AttackState : State
     {
         if (enemy.currentAmmo > 0)
         {
+            enemy.enemyAnimator.PlayAttackAnimation();
             enemy.enemyWeapon.EnemyAttack();
             enemy.currentAmmo--;
             _shotTimer = 0;
